@@ -1,0 +1,142 @@
+/* Body */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    padding: 25px;
+    width: auto;
+    height: auto;
+    background-color: #f6fffc;
+    color: #000;
+}
+
+/* Tabela */
+
+thead {
+    background-color: rgb(200, 255, 234)
+}
+
+td,
+th {
+    border: 1px solid #808080;
+    padding: 5px 10px;
+    text-align: center;
+}
+
+#tabela {
+    font-size: 10pt;
+}
+
+/* Botões */
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #2e9e73;
+    border-color: #2e9e73;
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:visited {
+    background-color: #3cc590;
+    border-color: #3cc590;
+}
+
+/* Toggle */
+
+.custom-toggle {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-toggle:checked+.custom-toggle-label,
+.custom-toggle:active+.custom-toggle-label {
+    background-color: #3cc590;
+    color: white;
+    border-color: #3cc590;
+    border-radius: 0;
+}
+
+.custom-toggle+.custom-toggle-label {
+    cursor: pointer;
+    padding: 0.375rem 0.75rem;
+    margin: 0;
+    border-radius: 0;
+    display: inline-block;
+    text-align: center;
+    color: #3cc590;
+    border: 1px solid #3cc590;
+    background-color: white;
+}
+
+.custom-toggle-label:hover,
+.custom-toggle-label:focus {
+    color: white;
+    background-color: #2e9e73;
+    border-color: #2e9e73;
+    border-radius: 0;
+}
+
+/* Toast */
+
+#toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 999999;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    background-color: #474747;
+    border-radius: 2px;
+    padding: 15px 20px;
+    min-width: 300px;
+    max-width: 350px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
+    transition: all linear 0.3s;
+    color: #d3d3d3;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(calc(100% + 32px));
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+.toast__icon {
+    font-size: 24px;
+    padding: 0 10px;
+    color: #e6e6e6;
+    display: flex;
+    align-items: center;
+}
+
+.toast__body {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.toast__msg {
+    font-size: 15px;
+    font-weight: bold;
+    color: #e6e6e6;
+    margin: 0;
+    line-height: 24px;
+}

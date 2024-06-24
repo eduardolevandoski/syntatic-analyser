@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div class="container-fluid geral">
+        <div class="row mt-2">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body mb-3">
+                        <h3 id="text-wrapping-and-overflow">Analisador Sintático</h3>
+                        <hr>
+                        <div class="row">
+                            <div class="area-gramatica col-md-4 mt-3">
+                                <span>
+                                    <strong>Gramática: </strong> <br>
+                                    S ::= aBd | dCc <br>
+                                    A ::= cSa | aBc <br>
+                                    B ::= bCc | ε <br>
+                                    C ::= aAb <br>
+                                </span>
+                            </div>
+                            <div class="area-first col-md-4 mt-3">
+                                <span>
+                                    <strong>First:</strong> <br>
+                                    S ::= { a, d } <br>
+                                    A ::= { c, a } <br>
+                                    B ::= { b, ε } <br>
+                                    C ::= { a } <br>
+                                </span>
+                            </div>
+                            <div class="area-follow col-md-4 mt-3">
+                                <span>
+                                    <strong>Follow:</strong> <br>
+                                    S ::= { $, a } <br>
+                                    A ::= { b } <br>
+                                    B ::= { d, c } <br>
+                                    C ::= { c } <br>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="area-validas  col-md-4 mt-3">
+                                <span>
+                                    <strong>Sentenças válidas:</strong> <br>
+                                    abaacbcd <br>
+                                    abacadabcd <br>
+                                    abacdaacbcabcd <br>
+                                    daabacdaacbcabccbc <br>
+                                </span>
+                            </div>
+                            <div class="area-invalidas  col-md-4 mt-3 mb-3">
+                                <span>
+                                    <strong>Sentenças inválidas:</strong> <br>
+                                    abacbcd <br>
+                                    ababcbcd <br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row align-items-end">
+                            <div class="col-md-7 d-flex align-items-end">
+                                <h3 id="text-wrapping-and-overflow" class="mb-0">Gerador de Sentença</h3>
+                            </div>
+                            <div class="input-group col-md-5">
+                                <input id="sentencaGerador" type="text" class="form-control bg-light" disabled="true"
+                                    value="">
+                                <div class="input-group-append">
+                                    <button type="button" id="copiarSentenca"
+                                        class="btn btn-primary d-flex align-items-center justify-content-center">
+                                        <span class="material-icons">content_copy</span>
+                                    </button>
+                                    <button type="button" id="limparGerador"
+                                        class="btn btn-danger d-flex align-items-center justify-content-center ml-2">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <table id="gerador" class="table table-bordered table-light">
+                            <thead class="thead-gerador">
+                                <tr>
+                                    <th>-</th>
+                                    <th>a</th>
+                                    <th>b</th>
+                                    <th>c</th>
+                                    <th>d</th>
+                                    <th>$</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="S">
+                                    <th scope="row left-row">S</th>
+                                    <td>S➜aBd</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>S➜dCc</td>
+                                    <td></td>
+                                </tr>
+                                <tr class="A">
+                                    <th scope="row left-row">A</th>
+                                    <td>A➜aBc</td>
+                                    <td></td>
+                                    <td>A➜cSa</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="B">
+                                    <th scope="row left-row">B</th>
+                                    <td></td>
+                                    <td>B➜bCc</td>
+                                    <td>B➜&epsilon;</td>
+                                    <td>B➜&epsilon;</td>
+                                    <td></td>
+                                </tr>
+                                <tr class="C">
+                                    <th scope="row left-row">C</th>
+                                    <td>C➜aAb</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-end">
+                            <div class="col-md-6 d-flex align-items-end">
+                                <h3 id="text-wrapping-and-overflow" class="mb-0">Tabela</h3>
+                            </div>
+                            <div class="input-group col-md-6">
+                                <input type="text" class="form-control" id="sentencaInput"
+                                    placeholder="Digite uma sentença">
+                                <div class="input-group-append">
+                                    <button type="button" id="botaoSolucionar"
+                                        class="btn btn-primary ml-2">Solucionar</button>
+                                    <button type="button" id="botaoProximoPassoo" class="btn btn-primary ml-2"
+                                        style="display: none;">Próximo Passo</button>
+                                    <button type="button" id="limparTabela"
+                                        class="btn btn-danger d-flex align-items-center justify-content-center ml-2">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="d-flex mb-3 justify-content-end">
+                            <input type="radio" class="btn-check custom-toggle" name="tipoSolucao"
+                                id="flexRadioDefault1" value="0" checked>
+                            <label class="btn btn-outline-primary custom-toggle-label"
+                                for="flexRadioDefault1">Completa</label>
+                            <input type="radio" class="btn-check custom-toggle" name="tipoSolucao"
+                                id="flexRadioDefault2" value="1">
+                            <label class="btn btn-outline-primary custom-toggle-label" for="flexRadioDefault2">Passo a
+                                Passo</label>
+                        </div>
+                        <table id="tabela" class="table table-bordered table-light">
+                            <thead>
+                                <tr>
+                                    <th>Pilha</th>
+                                    <th>Entrada</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody class="parsing-itens">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toast"></div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/gerador.js"></script>
+    <script src="./js/tabela.js"></script>
+</body>
+
+</html>
