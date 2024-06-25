@@ -90,7 +90,6 @@ function SolucionaTabela(sentenca) {
 
         if (tabela[ultimaLetraPilha][primeiraLetraEntrada] != null) {
           ultimaIteracao.acao = tabela[ultimaLetraPilha][primeiraLetraEntrada];
-          entrada = ultimaIteracao.entrada;
 
           if (ultimaIteracao.acao != "E") {
             novaPilha =
