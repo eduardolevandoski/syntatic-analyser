@@ -79,7 +79,7 @@ function SolucionaTabela(sentenca) {
 
   ultimaIteracao = iteracao[iteracao.length - 1];
 
-  while (ultimaIteracao.pilha.length) {
+  while (true) {
     ultimaLetraPilha = ultimaIteracao.pilha[ultimaIteracao.pilha.length - 1];
     primeiraLetraEntrada = ultimaIteracao.entrada[0];
     if (ultimaIteracao.pilha.length > 0 || ultimaIteracao.entrada > 0) {
