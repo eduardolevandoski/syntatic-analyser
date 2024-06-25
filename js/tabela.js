@@ -25,11 +25,11 @@ $('input[type="radio"]').change(function () {
   if ($("input:radio[name=tipoSolucao]:checked").val() == 0) {
     tipoSolucao = "Completa";
     $("#botaoSolucionar").show();
-    $("#botaoProximoPassoo").hide();
+    $("#botaoProximoPasso").hide();
   } else {
     tipoSolucao = "PassoPasso";
     $("#botaoSolucionar").hide();
-    $("#botaoProximoPassoo").show();
+    $("#botaoProximoPasso").show();
   }
 });
 
@@ -37,7 +37,7 @@ $("#botaoSolucionar").click(function () {
   SolucionaTabela($("#sentencaInput").val());
 });
 
-$("#botaoProximoPassoo").click(function () {
+$("#botaoProximoPasso").click(function () {
   if (passoTabela === 0) {
     SolucionaTabela($("#sentencaInput").val());
     passoTabela++;
@@ -47,86 +47,97 @@ $("#botaoProximoPassoo").click(function () {
   }
 });
 
-function AdicionaNaTabela(step) {
-  $("#tabela").append(
-    `<tr class="iteracao"><td>${step.pilha}</td><td>${step.entrada}</td><td>${step.proximoPasso}</td></tr>`
-  );
+function AdicionaNaTabela(passo) {
+  ultimaLetraPilha = passo.pilha[passo.pilha.length - 1];
+
+  if (
+    ultimaLetraPilha == ultimaLetraPilha.toUpperCase() &&
+    ultimaLetraPilha != "$"
+  ) {
+    $("#tabela").append(
+      `<tr class=iteracao><td>${passo.pilha}</td><td>${passo.entrada}</td><td>${ultimaLetraPilha} ➜ ${passo.acao}</td></tr>`
+    );
+  } else {
+    $("#tabela").append(
+      `<tr class="iteracao"><td>${passo.pilha}</td><td>${passo.entrada}</td><td>${passo.acao}</td></tr>`
+    );
+  }
 }
 
 function SolucionaTabela(sentenca) {
   iteracao = [];
   passoTabela = 0;
   pilha = "$S";
-  sentenca = sentenca + "$";
-  proximoPasso = tabela["S"][sentenca[0]];
+  entrada = sentenca + "$";
+  acao = tabela["S"][entrada[0]];
 
   iteracao.push({
     pilha: pilha,
-    entrada: sentenca,
-    proximoPasso: proximoPasso,
+    entrada: entrada,
+    acao: acao,
   });
 
-  var ultimaPosicao = iteracao[iteracao.length - 1];
+  ultimaIteracao = iteracao[iteracao.length - 1];
 
-  while (ultimaPosicao.pilha.length) {
-    ultimaLetra = ultimaPosicao.pilha[ultimaPosicao.pilha.length - 1];
-    entrada = ultimaPosicao.entrada[0];
-    if (ultimaPosicao.pilha.length > 0 || ultimaPosicao.entrada > 0) {
-      if (ultimaLetra != entrada) {
-        if (ultimaLetra != ultimaLetra.toUpperCase()) {
+  while (ultimaIteracao.pilha.length) {
+    ultimaLetraPilha = ultimaIteracao.pilha[ultimaIteracao.pilha.length - 1];
+    primeiraLetraEntrada = ultimaIteracao.entrada[0];
+    if (ultimaIteracao.pilha.length > 0 || ultimaIteracao.entrada > 0) {
+      if (ultimaLetraPilha != primeiraLetraEntrada) {
+        if (ultimaLetraPilha != ultimaLetraPilha.toUpperCase()) {
           break;
         }
 
-        if (tabela[ultimaLetra][entrada] != null) {
-          ultimaPosicao.proximoPasso = tabela[ultimaLetra][entrada];
-          sentenca = ultimaPosicao.entrada;
+        if (tabela[ultimaLetraPilha][primeiraLetraEntrada] != null) {
+          ultimaIteracao.acao = tabela[ultimaLetraPilha][primeiraLetraEntrada];
+          entrada = ultimaIteracao.entrada;
 
-          if (ultimaPosicao.proximoPasso != "E") {
+          if (ultimaIteracao.acao != "E") {
             novaPilha =
-              ultimaPosicao.pilha.slice(0, -1) +
-              ultimaPosicao.proximoPasso.split("").reverse().join("");
+              ultimaIteracao.pilha.slice(0, -1) +
+              ultimaIteracao.acao.split("").reverse().join("");
           } else {
-            novaPilha = ultimaPosicao.pilha.slice(0, -1);
+            novaPilha = ultimaIteracao.pilha.slice(0, -1);
           }
 
           iteracao.push({
             pilha: novaPilha,
-            entrada: sentenca,
-            proximoPasso: "",
+            entrada: entrada,
+            acao: "",
           });
         } else {
-          proximoPasso = "Erro em " + iteracao.length + " iterações";
+          acao = "Erro em " + iteracao.length + " iterações";
           break;
         }
       } else {
-        if (entrada == "$" && ultimaLetra == "$") {
+        if (primeiraLetraEntrada == "$" && ultimaLetraPilha == "$") {
           break;
         }
 
-        proximoPasso = "Ler  '" + entrada + "'";
-        ultimaPosicao.proximoPasso = proximoPasso;
+        acao = "Ler  '" + primeiraLetraEntrada + "'";
+        ultimaIteracao.acao = acao;
 
-        novaPilha = ultimaPosicao.pilha.slice(0, -1);
-        sentenca = ultimaPosicao.entrada.substr(1);
+        novaPilha = ultimaIteracao.pilha.slice(0, -1);
+        entrada = ultimaIteracao.entrada.substr(1);
 
         iteracao.push({
           pilha: novaPilha,
-          entrada: sentenca,
-          proximoPasso: "",
+          entrada: entrada,
+          acao: "",
         });
       }
 
-      ultimaPosicao = iteracao[iteracao.length - 1];
+      ultimaIteracao = iteracao[iteracao.length - 1];
     }
   }
 
-  ultimaLetra = ultimaPosicao.pilha[ultimaPosicao.pilha.length - 1];
-  entrada = ultimaPosicao.entrada[0];
+  ultimaLetraPilha = ultimaIteracao.pilha[ultimaIteracao.pilha.length - 1];
+  primeiraLetraEntrada = ultimaIteracao.entrada[0];
 
-  if (ultimaLetra == "$" && entrada == "$") {
-    ultimaPosicao.proximoPasso = "Aceito em " + iteracao.length + " iterações";
+  if (ultimaLetraPilha == "$" && primeiraLetraEntrada == "$") {
+    ultimaIteracao.acao = "Aceito em " + iteracao.length + " iterações";
   } else {
-    ultimaPosicao.proximoPasso = "Erro em " + iteracao.length + " iterações";
+    ultimaIteracao.acao = "Erro em " + iteracao.length + " iterações";
   }
 
   if (tipoSolucao == "Completa") {
@@ -140,15 +151,18 @@ function AtualizaTabela() {
   $(".iteracao").remove();
 
   for (var i = 0; i < iteracao.length; i++) {
-    ultimaLetra = iteracao[i].pilha[iteracao[i].pilha.length - 1];
+    ultimaLetraPilha = iteracao[i].pilha[iteracao[i].pilha.length - 1];
 
-    if (i < iteracao.length - 1 && ultimaLetra == ultimaLetra.toUpperCase()) {
+    if (
+      i < iteracao.length - 1 &&
+      ultimaLetraPilha == ultimaLetraPilha.toUpperCase()
+    ) {
       $("#tabela").append(
-        `<tr class=iteracao><td>${iteracao[i].pilha}</td><td>${iteracao[i].entrada}</td><td>${ultimaLetra} ➜ ${iteracao[i].proximoPasso}</td></tr>`
+        `<tr class=iteracao><td>${iteracao[i].pilha}</td><td>${iteracao[i].entrada}</td><td>${ultimaLetraPilha} ➜ ${iteracao[i].acao}</td></tr>`
       );
     } else {
       $("#tabela").append(
-        `<tr class=iteracao><td>${iteracao[i].pilha}</td><td>${iteracao[i].entrada}</td><td>${iteracao[i].proximoPasso}</td></tr>`
+        `<tr class=iteracao><td>${iteracao[i].pilha}</td><td>${iteracao[i].entrada}</td><td>${iteracao[i].acao}</td></tr>`
       );
     }
   }
